@@ -785,6 +785,7 @@ class ContactsApi(object):
         all_params.append('_return_http_data_only')
         all_params.append('_preload_content')
         all_params.append('_request_timeout')
+        all_params.append('_identifier_type')
 
         params = locals()
         for key, val in six.iteritems(params['kwargs']):
@@ -825,8 +826,11 @@ class ContactsApi(object):
         # Authentication setting
         auth_settings = ['api-key', 'partner-key']  # noqa: E501
 
+        url = '/contacts/{identifier}'
+        if '_identifier_type' in params:
+            url = '{}?identifierType={}'.format(url, params['_identifier_type'])
         return self.api_client.call_api(
-            '/contacts/{identifier}', 'DELETE',
+            url, 'DELETE',
             path_params,
             query_params,
             header_params,
